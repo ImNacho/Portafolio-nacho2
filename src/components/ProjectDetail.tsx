@@ -347,7 +347,18 @@ export default function ProjectDetail({ slug }: Props) {
   const index = projectsStaticData.findIndex((p) => p.slug === slug);
   const staticData = projectsStaticData[index];
   const projectT = pr.projects[index];
-  const rich = projectT as typeof projectT & RichProjectT;
+  const rich = (projectT ?? {}) as Partial<RichProjectT>;
+  const richSections: ProjectSection[] = Array.isArray(rich.sections) ? rich.sections : [];
+  const richTechCategories: Array<{ label: string; items: string[] }> = Array.isArray(rich.techCategories)
+    ? rich.techCategories
+    : [];
+  const richArchitectureOverview = Array.isArray(rich.architectureOverview)
+    ? rich.architectureOverview
+    : [];
+  const richResponsibilities = Array.isArray(rich.responsibilities) ? rich.responsibilities : [];
+  const richSystemDiagram = rich.systemDiagram && typeof rich.systemDiagram === "object"
+    ? rich.systemDiagram
+    : { flow: [], integrations: [] };
 
   useEffect(() => {
     if (!staticData) return;
@@ -454,16 +465,16 @@ export default function ProjectDetail({ slug }: Props) {
               )}
             </div>
 
-            {(rich.architectureOverview || rich.systemDiagram) && (
+            {(richArchitectureOverview.length > 0 || richSystemDiagram.flow.length > 0 || richSystemDiagram.integrations.length > 0) && (
               <div className="detail-section grid sm:grid-cols-2 gap-3 md:gap-4">
 
-                {rich.architectureOverview && (
+                {richArchitectureOverview.length > 0 && (
                   <div className="bg-background dark:bg-foreground/[0.04] rounded-2xl p-4 md:p-5 border border-border/40">
                     <h2 className="text-xs uppercase tracking-widest font-black text-muted-foreground mb-4">
                       {pr.archOverview}
                     </h2>
                     <div className="space-y-2 md:space-y-2.5">
-                      {rich.architectureOverview.map((row, i) => (
+                      {richArchitectureOverview.map((row, i) => (
                         <div key={i} className="flex items-start gap-2 text-sm">
                           <span className="text-[10px] uppercase tracking-widest text-muted-foreground w-24 flex-shrink-0 pt-0.5 leading-tight">
                             {row.layer}
@@ -476,36 +487,36 @@ export default function ProjectDetail({ slug }: Props) {
                   </div>
                 )}
 
-                {rich.systemDiagram && (
+                {(richSystemDiagram.flow.length > 0 || richSystemDiagram.integrations.length > 0) && (
                   <div className="bg-background dark:bg-foreground/[0.04] rounded-2xl p-4 md:p-5 border border-border/40">
                     <h2 className="text-xs uppercase tracking-widest font-black text-muted-foreground mb-4">
                       {pr.systemDiagramLabel}
                     </h2>
                     <div className="flex flex-col items-center gap-1">
-                      {rich.systemDiagram.flow.map((node, i) => (
+                      {richSystemDiagram.flow.map((node, i) => (
                         <div key={i} className="flex flex-col items-center gap-1 w-full">
                           <div className={`text-[11px] font-semibold px-3 py-2 rounded-xl text-center w-full border ${
                             i === 0
                               ? "bg-foreground/5 border-border/40 text-foreground/50"
-                              : i === rich.systemDiagram!.flow.length - 1
+                              : i === richSystemDiagram.flow.length - 1
                               ? `${staticData.accent} bg-foreground/5`
                               : "bg-foreground/5 border-border/40 text-foreground/70"
                           }`}>
                             {node}
                           </div>
-                          {i < rich.systemDiagram!.flow.length - 1 && (
+                          {i < richSystemDiagram.flow.length - 1 && (
                             <span className="text-foreground/25 text-xs">↓</span>
                           )}
                         </div>
                       ))}
                     </div>
-                    {rich.systemDiagram.integrations.length > 0 && (
+                    {richSystemDiagram.integrations.length > 0 && (
                       <div className="mt-4 pt-4 border-t border-border/30">
                         <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
                           {pr.externalIntegrations}
                         </div>
                         <div className="flex flex-wrap gap-1.5">
-                          {rich.systemDiagram.integrations.map((item, i) => (
+                          {richSystemDiagram.integrations.map((item, i) => (
                             <span key={i} className="text-[10px] font-medium px-2.5 py-1 rounded-full border border-border/50 bg-foreground/5 text-foreground/60">
                               {item}
                             </span>
@@ -523,9 +534,9 @@ export default function ProjectDetail({ slug }: Props) {
               <h2 className="text-xs uppercase tracking-widest font-black text-muted-foreground mb-2 md:mb-5">
                 {pr.keyFeatures}
               </h2>
-              {rich.sections ? (
+              {richSections.length > 0 ? (
                 <div className="space-y-3 md:space-y-6">
-                  {rich.sections.map((section, i) => (
+                  {richSections.map((section, i) => (
                     <div key={i} className="space-y-1 md:space-y-2">
                       <h3 className="text-sm font-bold text-foreground">{section.title}</h3>
                       {section.description && (
@@ -577,9 +588,9 @@ export default function ProjectDetail({ slug }: Props) {
               <h2 className="text-xs uppercase tracking-widest font-black text-muted-foreground mb-3 md:mb-5">
                 {pr.techStack}
               </h2>
-              {rich.techCategories ? (
+              {richTechCategories.length > 0 ? (
                 <div className="space-y-5">
-                  {rich.techCategories.map((cat, i) => (
+                  {richTechCategories.map((cat, i) => (
                     <div key={i}>
                       <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2 font-semibold">{cat.label}</div>
                       <div className="flex flex-wrap gap-2">
@@ -624,11 +635,11 @@ export default function ProjectDetail({ slug }: Props) {
                 <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Rol</span>
                 <p className="mt-1 text-sm font-semibold text-foreground">{project.role}</p>
               </div>
-              {rich.responsibilities && (
+              {richResponsibilities.length > 0 && (
                 <div>
                   <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Responsable de</span>
                   <ul className="mt-2 space-y-1">
-                    {rich.responsibilities.map((r, i) => (
+                    {richResponsibilities.map((r, i) => (
                       <li key={i} className="text-xs text-foreground/70 flex items-start gap-2">
                         <span className="mt-1.5 w-1 h-1 rounded-full bg-foreground/40 flex-shrink-0" />
                         {r}
