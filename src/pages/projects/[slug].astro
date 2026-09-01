@@ -1,0 +1,80 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import ProjectDetail from "@/components/ProjectDetail";
+import ChatAI from "@/components/ChatAI";
+import { projectsStaticData } from "@/config/projects";
+import { translations } from "@/lib/translations";
+
+const { slug } = Astro.params;
+
+if (!slug) {
+  return Astro.redirect('/');
+}
+
+const cookieLang = Astro.cookies.get('lang')?.value;
+const pageLang = cookieLang === 'en' ? 'en' : 'es';
+const isEn = pageLang === 'en';
+
+const projectIndex = projectsStaticData.findIndex(p => p.slug === slug);
+const staticData = projectsStaticData[projectIndex];
+const projectT = translations[pageLang].projects.projects[projectIndex];
+
+if (!staticData) {
+  return Astro.redirect('/');
+}
+
+const siteURL = "https://jackshaw32.dev";
+const projectTitle = projectT?.title ?? slug;
+const projectDescription = projectT?.description ?? (isEn ? "Project in Hernán Mendoza's portfolio — Software Engineer & Full Stack Developer." : "Proyecto en el portfolio de Hernán Mendoza — Software Engineer & Full Stack Developer.");
+const projectImage = staticData.images?.[0] ?? "/api/og";
+const projectKeywords = `${staticData.tags.join(", ")}, Hernán Mendoza, Software Engineer, Full Stack Developer, portfolio`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": projectTitle,
+  "description": projectDescription,
+  "url": staticData.link,
+  "image": `${siteURL}${projectImage}`,
+  "creator": {
+    "@type": "Person",
+    "name": "Hernán Mendoza",
+    "url": siteURL
+  },
+  "inLanguage": pageLang,
+  "keywords": staticData.tags.join(", "),
+  "dateCreated": staticData.year,
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": isEn ? "Home" : "Inicio", "item": siteURL },
+      { "@type": "ListItem", "position": 2, "name": isEn ? "Projects" : "Proyectos", "item": `${siteURL}/#projects` },
+      { "@type": "ListItem", "position": 3, "name": projectTitle, "item": `${siteURL}/projects/${slug}` }
+    ]
+  }
+};
+---
+
+<Layout
+  title={`${projectTitle} — Hernán Mendoza`}
+  description={projectDescription}
+  image={projectImage}
+  keywords={projectKeywords}
+  type="article"
+  lang={pageLang}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <div class="min-h-screen bg-background">
+    <Navbar subPage={true} client:load />
+
+    <main>
+      <ProjectDetail slug={slug} client:load />
+    </main>
+
+    <Footer subPage={true} client:idle />
+
+    <ChatAI slug={slug} client:load />
+  </div>
+</Layout>

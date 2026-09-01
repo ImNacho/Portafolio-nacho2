@@ -1,0 +1,502 @@
+---
+import '@/styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  keywords?: string;
+  type?: 'website' | 'article' | 'profile';
+  noindex?: boolean;
+  lang?: string;
+}
+
+const {
+  title,
+  description: rawDescription,
+  image: rawImage,
+  keywords: rawKeywords,
+  type = "website",
+  noindex = false,
+  lang: propLang,
+} = Astro.props;
+
+const cookieLang = Astro.cookies.get('lang')?.value;
+const pageLang = propLang || cookieLang || 'es';
+const isEn = pageLang === 'en';
+
+const description = rawDescription || (isEn
+  ? "Software Engineer & Full Stack Developer specialized in modern web applications, e-commerce and scalable products with React, Node.js and TypeScript."
+  : "Software Engineer & Full Stack Developer especializado en aplicaciones web modernas, e-commerce y productos escalables con React, Node.js y TypeScript.");
+const keywords = rawKeywords || (isEn
+  ? "Hernán Mendoza, Software Engineer, Full Stack Developer, React, Node.js, TypeScript, Colombia, web developer, e-commerce, portfolio"
+  : "Hernán Mendoza, Software Engineer, Full Stack Developer, React, Node.js, TypeScript, Colombia, desarrollador web, e-commerce, portfolio");
+const image = rawImage ?? "/api/og";
+
+const siteURL = "https://jackshaw32.dev";
+const canonicalURL = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', siteURL).href;
+const ogImage = image.startsWith('http') ? image : `${siteURL}${image}${image === '/api/og' ? `?lang=${pageLang}` : ''}`;
+const pageTitle = title.includes('Hernán Mendoza') ? title : `${title} | Hernán Mendoza`;
+
+const personDesc = "Software Engineer & Full Stack Developer" + (isEn ? " specialized in modern web applications, e-commerce and scalable products with React, Node.js and TypeScript." : " especializado en aplicaciones web modernas, e-commerce y productos escalables con React, Node.js y TypeScript.");
+const webSiteDesc = isEn
+  ? "Professional portfolio of Hernán Mendoza, Software Engineer & Full Stack Developer specialized in modern web applications and e-commerce."
+  : "Portafolio profesional de Hernán Mendoza, Software Engineer & Full Stack Developer especializado en aplicaciones web modernas y e-commerce.";
+const webPageDesc = isEn
+  ? "Hernán Mendoza's professional portfolio — Software Engineer & Full Stack Developer with experience in React, Node.js, TypeScript and scalable e-commerce."
+  : "Portfolio profesional de Hernán Mendoza — Software Engineer & Full Stack Developer con experiencia en React, Node.js, TypeScript y e-commerce escalable.";
+const homeLabel = isEn ? "Home" : "Inicio";
+
+const ldJson = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://jackshaw32.dev/#person",
+      name: "Hernán Mendoza",
+      url: "https://jackshaw32.dev",
+      image: { "@type": "ImageObject", url: "https://jackshaw32.dev/20220924_233024.webp", width: 800, height: 800 },
+      jobTitle: "Software Engineer & Full Stack Developer",
+      description: personDesc,
+      knowsAbout: ["JavaScript", "TypeScript", "React", "Node.js", "MongoDB", "Firebase", "Tailwind CSS", "E-commerce", "REST API"],
+      knowsLanguage: ["es", "en"],
+      nationality: { "@type": "Country", name: "Colombia" },
+      sameAs: ["https://www.linkedin.com/in/hernan-josé-mendoza-ibáñez-229332212/", "https://github.com/ImNacho"],
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://jackshaw32.dev/#website",
+      url: "https://jackshaw32.dev",
+      name: "Hernán Mendoza — Software Engineer & Full Stack Developer",
+      description: webSiteDesc,
+      inLanguage: ["es", "en"],
+      author: { "@id": "https://jackshaw32.dev/#person" },
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://jackshaw32.dev/#webpage",
+      url: "https://jackshaw32.dev",
+      name: "Hernán Mendoza | Software Engineer & Full Stack Developer",
+      isPartOf: { "@id": "https://jackshaw32.dev/#website" },
+      about: { "@id": "https://jackshaw32.dev/#person" },
+      description: webPageDesc,
+      inLanguage: pageLang,
+      breadcrumb: {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: homeLabel, item: "https://jackshaw32.dev" },
+        ],
+      },
+    },
+    {
+      "@type": "ProfilePage",
+      dateCreated: "2024-01-01T00:00:00Z",
+      dateModified: "2026-03-08T00:00:00Z",
+      mainEntity: { "@id": "https://jackshaw32.dev/#person" },
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang={pageLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="google-site-verification" content="JZCTkwYX790GrRFV4WhWRhWqs0n-mSQ6r4qWYXfsILw" />
+    <meta name="msvalidate.01" content="00A8878586FD447D0863F37C42A54300" />
+    <title>{pageTitle}</title>
+    <meta name="title" content={pageTitle} />
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="author" content="Hernán Mendoza" />
+    <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"} />
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/general-sans-600.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Hernán Mendoza" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:site_name" content="Hernán Mendoza" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${title} — Hernán Mendoza`} />
+    <meta property="og:locale" content={pageLang === 'en' ? "en_US" : "es_AR"} />
+    <meta property="og:locale:alternate" content={pageLang === 'en' ? "es_AR" : "en_US"} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={`${title} — Hernán Mendoza`} />
+    <meta name="twitter:creator" content="@hernanmendoza" />
+    <meta name="twitter:site" content="@hernanmendoza" />
+
+    <script type="application/ld+json" is:inline>{JSON.stringify(ldJson)}</script>
+
+    <script is:inline>
+      (function() {
+        try {
+          var theme = localStorage.getItem('theme');
+          if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch(e) {}
+      })();
+    </script>
+
+    <script>
+      function applyTheme() {
+        try {
+          const theme = localStorage.getItem('theme');
+          if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch(e) {}
+      }
+
+      applyTheme();
+
+      window.addEventListener('storage', function(e) {
+        if (e.key === 'theme') {
+          applyTheme();
+        }
+      });
+
+      document.addEventListener('astro:before-swap', function(e) {
+        try {
+          const theme = localStorage.getItem('theme');
+          const isDark = theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (isDark) {
+            e.newDocument.documentElement.classList.add('dark');
+          } else {
+            e.newDocument.documentElement.classList.remove('dark');
+          }
+        } catch(e) {}
+
+        const leavingProject = location.pathname.match(/^\/projects\//) && e.to && e.to.pathname === '/';
+        const isBack = e.direction === 'back';
+        if (leavingProject || isBack) {
+          const strip = (doc: Document) =>
+            doc.querySelectorAll<HTMLElement>('[style*="view-transition-name"]').forEach(el =>
+              el.style.removeProperty('view-transition-name')
+            );
+          strip(document);
+          strip(e.newDocument);
+        }
+      });
+
+      document.addEventListener('astro:after-swap', applyTheme);
+    </script>
+
+    <script is:inline>
+      (function() {
+        try {
+          var saved = sessionStorage.getItem('scroll-pos');
+          if (saved && !sessionStorage.getItem('skip-scroll-restore')) {
+            history.scrollRestoration = 'manual';
+            var y = parseFloat(saved);
+            if (!isNaN(y)) window.scrollTo(0, y);
+          }
+        } catch(e) {}
+      })();
+    </script>
+
+    <script>
+      import Lenis from 'lenis';
+
+      let lenis: InstanceType<typeof Lenis> | null = null;
+      let rafId: number | null = null;
+
+      function rafLoop(time: number) {
+        if (!lenis) return;
+        lenis.raf(time);
+        rafId = requestAnimationFrame(rafLoop);
+      }
+
+      function destroyLenis() {
+        if (rafId !== null) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+        if (lenis) {
+          lenis.destroy();
+          lenis = null;
+        }
+        (window as any).lenis = null;
+      }
+
+      function initLenis() {
+        destroyLenis();
+
+        lenis = new Lenis({
+          duration: 1.2,
+          easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true,
+          wheelMultiplier: 1,
+          touchMultiplier: 2,
+        });
+
+        (window as any).lenis = lenis;
+
+        rafId = requestAnimationFrame(rafLoop);
+
+        var saved = sessionStorage.getItem('scroll-pos');
+        if (saved && !sessionStorage.getItem('skip-scroll-restore')) {
+          sessionStorage.removeItem('scroll-pos');
+          lenis.scrollTo(Number(saved), { immediate: true });
+        }
+        sessionStorage.removeItem('skip-scroll-restore');
+      }
+
+      window.addEventListener('beforeunload', function() {
+        var l = (window as any).lenis;
+        if (l) { sessionStorage.setItem('scroll-pos', String(l.scroll)); }
+      });
+
+      initLenis();
+
+      function scrollToHash() {
+        var section = sessionStorage.getItem('scroll-to-section');
+        if (section) {
+          sessionStorage.removeItem('scroll-to-section');
+          sessionStorage.removeItem('return-to-project');
+          setTimeout(function() {
+            var l = window.lenis;
+            if (!l) return;
+            if (section === 'top') {
+              l.scrollTo(0, { immediate: true });
+            } else {
+              var sectionEl = document.getElementById(section!);
+              if (sectionEl) { l.scrollTo(sectionEl, { immediate: true }); }
+            }
+          }, 100);
+          return;
+        }
+
+        var hash = location.hash;
+        if (hash && hash !== '#') {
+          var target = hash.slice(1);
+          setTimeout(function() {
+            var l = window.lenis;
+            if (!l) return;
+            if (target === 'top') {
+              l.scrollTo(0, { immediate: true });
+            } else {
+              var sectionEl = document.getElementById(target);
+              if (sectionEl) { l.scrollTo(sectionEl, { immediate: true }); }
+            }
+          }, 100);
+        }
+      }
+
+      scrollToHash();
+
+      document.addEventListener('astro:before-swap', destroyLenis);
+      document.addEventListener('astro:after-swap', initLenis);
+    </script>
+
+    <script>
+      document.addEventListener('click', function(e) {
+        var anchor = e.target instanceof Element ? e.target.closest('a[href^="#"]') : null;
+        if (!anchor) return;
+        var hash = anchor.getAttribute('href');
+        if (!hash || hash === '#') return;
+        var target = document.querySelector(hash);
+        if (!target) return;
+        e.preventDefault();
+        var l = window.lenis;
+        if (l) {
+          var isTouch = window.matchMedia('(hover: none)').matches;
+          window.__navScrolling = true;
+          window.__navTarget = target;
+          if (isTouch) {
+            l.scrollTo(target as HTMLElement, { immediate: true });
+            window.__navScrolling = false;
+            window.__navTarget = null;
+            document.querySelectorAll('.reveal:not(.active)').forEach(function(el) {
+              var rect = el.getBoundingClientRect();
+              if (rect.top < window.innerHeight && rect.bottom > 0) {
+                el.classList.add('active');
+              }
+            });
+          } else {
+            l.scrollTo(target as HTMLElement, {
+              duration: 1.2,
+              onComplete: () => {
+                window.__navScrolling = false;
+                window.__navTarget = null;
+              },
+            });
+          }
+        } else {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        history.replaceState(null, '', window.location.pathname);
+      });
+
+      if (window.location.hash) {
+        var id = window.location.hash;
+        history.replaceState(null, '', window.location.pathname);
+        var el = document.querySelector(id);
+        if (el) {
+          var targetY = el.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo(0, targetY);
+          setTimeout(function() {
+            var l = window.lenis;
+            if (l) { l.scrollTo(targetY, { immediate: true }); }
+          }, 100);
+        }
+      }
+    </script>
+
+    <script>
+      var navEntry = performance.getEntriesByType && (performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined);
+      if (navEntry && navEntry.type === 'reload') {
+        sessionStorage.removeItem('skip-reveal');
+      }
+
+      document.addEventListener('astro:before-preparation', function(e) {
+        var match = location.pathname.match(/^\/projects\/([^\/]+)/);
+        if (match && e.to) {
+          sessionStorage.setItem('skip-reveal', '1');
+          if (!e.to.hash && !sessionStorage.getItem('scroll-to-section')) {
+            sessionStorage.setItem('return-to-project', match[1]);
+          }
+        } else {
+          sessionStorage.removeItem('skip-reveal');
+        }
+      });
+
+      document.addEventListener('astro:after-swap', function() {
+        if (location.pathname !== '/' && location.pathname !== '') return;
+
+        var section = sessionStorage.getItem('scroll-to-section');
+        if (section) {
+          sessionStorage.removeItem('scroll-to-section');
+          sessionStorage.removeItem('return-to-project');
+          setTimeout(function() {
+            var l = window.lenis;
+            if (!l) return;
+            if (section === 'top') {
+              l.scrollTo(0, { immediate: true });
+            } else {
+              var sectionEl = document.getElementById(section!);
+              if (sectionEl) { l.scrollTo(sectionEl, { immediate: true }); }
+            }
+          }, 100);
+          return;
+        }
+
+        var hash = location.hash;
+        if (hash && hash !== '#') {
+          var target = hash.slice(1);
+          setTimeout(function() {
+            var l = window.lenis;
+            if (!l) return;
+            if (target === 'top') {
+              l.scrollTo(0, { immediate: true });
+            } else {
+              var sectionEl = document.getElementById(target);
+              if (sectionEl) { l.scrollTo(sectionEl, { immediate: true }); }
+            }
+          }, 100);
+          return;
+        }
+
+        var slug = sessionStorage.getItem('return-to-project');
+        if (slug) {
+          sessionStorage.removeItem('return-to-project');
+          var card = document.querySelector('[data-project-slug="' + slug + '"]') as HTMLElement | null;
+          if (card) {
+            var offset = -(window.innerHeight / 2) + card.offsetHeight / 2;
+            var targetY = card.getBoundingClientRect().top + window.scrollY + offset;
+            window.scrollTo(0, Math.max(0, targetY));
+          }
+          setTimeout(function() {
+            var l = window.lenis;
+            if (!l || !card) return;
+            l.scrollTo(card, { immediate: true, offset: offset });
+            var st = window.ScrollTrigger;
+            if (st) st.refresh();
+          }, 100);
+        }
+      });
+    </script>
+
+    <ClientRouter />
+  </head>
+  <body class="min-h-screen bg-background font-sans antialiased selection:bg-primary/30 overflow-x-hidden">
+    <!-- Reading progress bar -->
+    <div id="reading-progress" class="fixed top-0 left-0 h-[2px] bg-gradient-to-r from-red-700 via-red-500 to-rose-400 z-[100]" style="width:0%" />
+    <script>
+      var progressCleanup: (() => void) | null = null;
+      function initProgressBar() {
+        if (progressCleanup) { progressCleanup(); progressCleanup = null; }
+        const el = document.getElementById('reading-progress');
+        if (!el) return;
+        var ticking = false;
+        // Cache the document height: reading scrollHeight on every scroll frame
+        // forces a synchronous layout (reflow) after the width write below.
+        // Re-measure only when the viewport resizes, when the page finishes
+        // loading resources (images/fonts can grow the page without a resize),
+        // or when the cached value is provably stale near the bottom.
+        var docHeight = document.documentElement.scrollHeight;
+        const paint = () => {
+          var pct = docHeight > window.innerHeight
+            ? Math.min(window.scrollY / (docHeight - window.innerHeight), 1)
+            : 0;
+          el.style.width = (pct * 100) + '%';
+        };
+        const remeasure = () => {
+          docHeight = document.documentElement.scrollHeight;
+          paint();
+        };
+        const update = () => {
+          ticking = false;
+          // Cheap stale check: if we are already at (or past) the cached max
+          // scroll, re-measure once instead of reading layout every frame.
+          if (docHeight <= window.innerHeight + window.scrollY + 10) {
+            remeasure();
+            return;
+          }
+          paint();
+        };
+        const onScroll = () => {
+          if (!ticking) { ticking = true; requestAnimationFrame(update); }
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', remeasure, { passive: true });
+        window.addEventListener('load', remeasure, { passive: true });
+        progressCleanup = function() {
+          window.removeEventListener('scroll', onScroll);
+          window.removeEventListener('resize', remeasure);
+          window.removeEventListener('load', remeasure);
+        };
+        // Defer the initial layout read to the next frame (after first paint).
+        requestAnimationFrame(remeasure);
+      }
+      initProgressBar();
+      document.addEventListener('astro:page-load', initProgressBar);
+    </script>
+    <slot />
+  </body>
+</html>
