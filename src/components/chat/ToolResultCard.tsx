@@ -110,7 +110,7 @@ export default function ToolResultCard({ toolInvocation, lang, onSubmitComment }
       <div key={toolInvocation.toolCallId} className="w-full sm:min-w-[260px] max-w-[300px] rounded-2xl border border-indigo-500/20 bg-background overflow-hidden shadow-lg animate-in fade-in slide-in-from-bottom-2 mt-1">
         <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 px-4 py-3 border-b border-border/50 flex items-center gap-2">
           <Mail className="w-4 h-4 text-indigo-400" />
-          <h4 className="font-bold text-sm text-foreground">{lang === 'en' ? 'Contact Eduardo' : 'Contactar a Eduardo'}</h4>
+          <h4 className="font-bold text-sm text-foreground">{lang === 'en' ? 'Contact Hernán' : 'Contactar a Hernán'}</h4>
         </div>
         <div className="p-3 space-y-2">
           {contactLinks.map((link) => (
@@ -312,11 +312,11 @@ export default function ToolResultCard({ toolInvocation, lang, onSubmitComment }
           <p className="text-xs text-muted-foreground">
             {form.success
               ? (lang === 'en'
-                ? `Your message was sent to Eduardo successfully, ${form.name}. He'll get back to you shortly!`
-                : `Tu mensaje fue enviado exitosamente a Eduardo, ${form.name}. ¡Te va a responder pronto!`)
+                ? `Your message was sent to Hernán successfully, ${form.name}. He'll get back to you shortly!`
+                : `Tu mensaje fue enviado exitosamente a Hernán, ${form.name}. ¡Te va a responder pronto!`)
               : (lang === 'en'
-                ? 'There was an error sending the message. Try contacting Eduardo directly.'
-                : 'Hubo un error al enviar el mensaje. Intentá contactar a Eduardo directamente.')}
+                ? 'There was an error sending the message. Try contacting Hernán directly.'
+                : 'Hubo un error al enviar el mensaje. Intentá contactar a Hernán directamente.')}
           </p>
         </div>
       </div>
@@ -384,7 +384,7 @@ export default function ToolResultCard({ toolInvocation, lang, onSubmitComment }
       <div key={toolInvocation.toolCallId} className="w-full sm:min-w-[300px] max-w-[350px] rounded-2xl border border-emerald-500/20 bg-background overflow-hidden shadow-lg animate-in fade-in slide-in-from-bottom-2 mt-1">
         <div className="bg-gradient-to-r from-emerald-500/10 to-teal-500/10 px-4 py-3 border-b border-border/50 flex items-center gap-2">
           <TrendingUp className="w-4 h-4 text-emerald-400" />
-          <h4 className="font-bold text-sm text-foreground">{lang === 'en' ? 'Why Hire Eduardo' : 'Por qué contratar a Eduardo'}</h4>
+          <h4 className="font-bold text-sm text-foreground">{lang === 'en' ? 'Why Hire Hernán' : 'Por qué contratar a Hernán'}</h4>
           <span className="ml-auto text-[10px] font-black text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">{rec.recommendationScore}/100</span>
         </div>
         <div className="p-4 space-y-4">

@@ -238,7 +238,7 @@ export function getToolsDefinition(lang: string) {
     }),
     execute: async () => ({
       portfolio: {
-        title: 'Portfolio — EduCabral',
+        title: 'Portfolio — Hernán Mendoza',
         layers: [
           { name: 'CDN / Edge',                   nameEn: 'CDN / Edge',                   tech: 'Vercel Edge + ISR',       color: 'blue' },
           { name: 'Frontend',                     nameEn: 'Frontend',                     tech: 'Astro v5 + React 19',    color: 'indigo' },

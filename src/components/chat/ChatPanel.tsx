@@ -51,7 +51,7 @@ export default function ChatPanel({
     { cmd: '/availability', descEs: 'Disponibilidad',    descEn: 'Availability' },
     { cmd: '/impact',     descEs: 'Ver métricas',      descEn: 'View metrics' },
     { cmd: '/arch',       descEs: 'Arquitectura',      descEn: 'Architecture' },
-    { cmd: '/profile',   descEs: 'Sobre Eduardo',     descEn: 'About Eduardo' },
+    { cmd: '/profile',   descEs: 'Sobre Hernán',      descEn: 'About Hernán' },
     { cmd: '/hire',      descEs: 'Por qué contratar', descEn: 'Why hire' },
     { cmd: '/comment',   descEs: 'Dejar comentario',  descEn: 'Leave comment' },
     { cmd: '/game',      descEs: 'Simón Dice',        descEn: 'Simon Says' },
