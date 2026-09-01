@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
-import vercel from '@astrojs/vercel';
+import node from '@astrojs/node';
 import sitemap from '@astrojs/sitemap';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -13,12 +13,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   site: 'https://jackshaw32.dev',
   output: 'server',
-  adapter: vercel({
-    isr: {
-      expiration: 600,
-      exclude: [/^\/api\/.+/],
-    },
-    imageService: true,
+  adapter: node({
+    mode: 'standalone',
   }),
   build: {
     inlineStylesheets: 'always',
