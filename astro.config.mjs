@@ -11,7 +11,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://jackshaw32.dev',
+  site: 'https://hernanmi.me',
   output: 'server',
   adapter: node({
     mode: 'standalone',
