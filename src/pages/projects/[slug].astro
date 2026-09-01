@@ -28,7 +28,7 @@ if (!staticData) {
 const siteURL = "https://jackshaw32.dev";
 const projectTitle = projectT?.title ?? slug;
 const projectDescription = projectT?.description ?? (isEn ? "Project in Hernán Mendoza's portfolio — Software Engineer & Full Stack Developer." : "Proyecto en el portfolio de Hernán Mendoza — Software Engineer & Full Stack Developer.");
-const projectImage = staticData.images?.[0] ?? "/api/og";
+const projectImage = (staticData.images as string[] | undefined)?.[0] ?? staticData.image || "/api/og";
 const projectKeywords = `${staticData.tags.join(", ")}, Hernán Mendoza, Software Engineer, Full Stack Developer, portfolio`;
 
 const jsonLd = {

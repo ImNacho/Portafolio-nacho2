@@ -1,7 +1,7 @@
 export const projectsStaticData = [
   {
     slug: "uncuartodemilla",
-    images: [],
+    images: [] as string[],
     image: "",
     year: "2023",
     number: "01",
@@ -17,7 +17,7 @@ export const projectsStaticData = [
   },
   {
     slug: "expresoomega",
-    images: [],
+    images: [] as string[],
     image: "",
     year: "2022",
     number: "02",
