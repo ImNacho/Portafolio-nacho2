@@ -278,19 +278,19 @@ export const en = {
       closeChat: "Close chat",
       openChat: "Open chat with Nacho Bot",
       suggestions: [
-        "What does he know about React?",
-        "How to contact him?",
-        "I want to send a message to Hernán",
+        "What tech stack does he use?",
+        "What projects has he built?",
+        "How can I contact him?",
       ],
       responses: {
         default:
-          "Hi! I'm Hernán Mendoza's virtual assistant. I can tell you about his experience in React, Node.js, MongoDB and more. What would you like to know?",
+          "Hi! I'm Hernán Mendoza's virtual assistant. I can tell you about his background, tech stack, projects and how to contact him. What would you like to know?",
         react:
-          "Hernán has extensive experience with React. He has built everything from e-commerces to complex landing pages with advanced hooks, context and performance optimizations.",
+          "Hernán works with React, Next.js and Astro to build modern, scalable interfaces. He also uses TypeScript, Tailwind and performance-focused patterns for complex web products.",
         node:
-          "Hernán uses Node.js and Express to build robust and scalable APIs. He has experience integrating with databases like MongoDB and PostgreSQL.",
+          "Hernán develops APIs with Node.js and Express/NestJS, and works with databases such as MongoDB, PostgreSQL and Firebase for full-stack and e-commerce projects.",
         contact:
-          "You can contact Hernán on LinkedIn or by email at andromixm@gmail.com. You can also use the contact form on this portfolio.",
+          "You can reach him by email, WhatsApp or LinkedIn from the contact section of this portfolio, or use the direct contact form.",
       },
     },
 };
