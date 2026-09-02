@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Download, FileText, Moon, Sun, Menu, X, Github, Linkedin, Terminal } from "lucide-react";
+import { Download, FileText, Moon, Sun, Menu, X, Github, Linkedin, Terminal, House, BriefcaseBusiness, Zap, UserRound, Mail } from "lucide-react";
 import ContactModal from "./ContactModal";
 import { useLanguage } from "@/hooks/useLanguage";
 import { translations } from "@/lib/translations";
@@ -106,7 +106,7 @@ export default function Navbar({ subPage = false }: { subPage?: boolean }) {
   return (
     <>
       <header
-        className="fixed left-0 right-0 top-16 z-50 transition-all duration-300 ease-in-out sm:top-0 md:top-0"
+        className="absolute left-0 right-0 top-0 z-50 transition-all duration-500 ease-out md:fixed"
       >
         <div className="w-full px-3 md:px-6 pt-0 md:pt-4">
           <div
@@ -182,6 +182,30 @@ export default function Navbar({ subPage = false }: { subPage?: boolean }) {
           </div>
         </div>
       </header>
+
+      <nav
+        aria-label={t.nav.navigation}
+        className="fixed inset-x-3 bottom-3 z-50 flex items-center justify-around rounded-2xl border border-border/60 bg-background/85 px-2 py-2 shadow-[0_12px_35px_rgba(0,0,0,0.18)] backdrop-blur-xl transition-all duration-500 ease-out md:hidden"
+      >
+        {[
+          { sectionId: "top", label: t.nav.home, Icon: House },
+          { sectionId: "skills", label: t.nav.trajectory, Icon: Zap },
+          { sectionId: "projects", label: t.nav.projects, Icon: BriefcaseBusiness },
+          { sectionId: "about", label: t.nav.about, Icon: UserRound },
+          { sectionId: "contact", label: t.nav.contact, Icon: Mail },
+        ].map(({ sectionId, label, Icon }) => (
+          <button
+            key={sectionId}
+            type="button"
+            onClick={() => scrollToSection(sectionId)}
+            className="group flex min-w-12 flex-col items-center gap-1 rounded-xl px-2 py-1.5 text-[10px] font-medium text-muted-foreground transition-all duration-300 hover:bg-foreground/10 hover:text-foreground active:scale-90"
+            aria-label={label}
+          >
+            <Icon className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5" />
+            <span>{label}</span>
+          </button>
+        ))}
+      </nav>
 
       <div
         className={`fixed inset-0 bg-black/70 backdrop-blur-[2px] z-[60] transition-opacity duration-300 ${
