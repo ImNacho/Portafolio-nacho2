@@ -6,12 +6,25 @@ export default function Hero() {
   const { lang } = useLanguage();
   const t = translations[lang];
 
+  const highlights =
+    lang === "es"
+      ? [
+          { label: "Full Stack", value: "Apps + APIs" },
+          { label: "E-commerce", value: "Shop + pagos" },
+          { label: "Productos", value: "UX + estrategia" },
+          { label: "IA & Cloud", value: "Automatización" },
+        ]
+      : [
+          { label: "Full Stack", value: "Apps + APIs" },
+          { label: "E-commerce", value: "Shop + payments" },
+          { label: "Products", value: "UX + strategy" },
+          { label: "AI & Cloud", value: "Automation" },
+        ];
+
   return (
     <section id="top" className="relative min-h-screen flex items-center justify-center overflow-hidden w-full hero-tablet-short">
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        {/* Premium mesh gradient: near-black base + blue/violet glows (static paint, subtle 45s transform drift) */}
         <div className="hero-mesh absolute inset-0" />
-        {/* Faint blueprint grid, masked to fade out toward the edges */}
         <div className="hero-grid absolute inset-0" />
       </div>
 
@@ -59,6 +72,20 @@ export default function Hero() {
               <Linkedin className="w-4 h-4 transition-transform duration-300 ease-out group-hover/linkedin:scale-110" />
               {t.hero.connectLinkedIn}
             </a>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            {highlights.map((item) => (
+              <div
+                key={item.label}
+                className="rounded-[1.4rem] border border-border/50 bg-gradient-to-br from-foreground/[0.04] to-transparent px-4 py-3.5 text-left shadow-[0_10px_24px_rgba(15,23,42,0.04)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-foreground/20"
+              >
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/80">
+                  {item.label}
+                </p>
+                <p className="mt-2 text-sm font-semibold text-foreground/90">{item.value}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
