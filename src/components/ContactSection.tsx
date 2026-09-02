@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { ArrowRight, Download, Github, Linkedin, Mail, MapPin, MessageSquareText, Phone } from "lucide-react";
+import { ArrowRight, Check, Copy, Download, Github, Linkedin, Mail, MapPin, MessageSquareText, Phone } from "lucide-react";
 import ContactModal from "./ContactModal";
 import { useLanguage } from "@/hooks/useLanguage";
 import { translations } from "@/lib/translations";
 
 export default function ContactSection() {
   const [contactOpen, setContactOpen] = useState(false);
+  const [copiedValue, setCopiedValue] = useState<string | null>(null);
   const { lang } = useLanguage();
   const t = translations[lang];
   const ct = t.contact;
@@ -15,6 +16,16 @@ export default function ContactSection() {
     { name: "LinkedIn", href: "https://www.linkedin.com/in/hernan-josé-mendoza-ibáñez-229332212/", icon: Linkedin },
     { name: "GitHub", href: "https://github.com/ImNacho", icon: Github },
   ];
+
+  const handleCopy = async (value: string) => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopiedValue(value);
+      window.setTimeout(() => setCopiedValue((current) => (current === value ? null : current)), 1500);
+    } catch {
+      setCopiedValue(null);
+    }
+  };
 
   return (
     <>
@@ -57,33 +68,51 @@ export default function ContactSection() {
               </div>
 
               <div className="space-y-4 rounded-2xl border border-border/60 bg-background/70 p-5 md:p-6">
-                <div className="flex items-center gap-3 rounded-xl border border-border/50 bg-card/60 p-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <div className="group flex items-center gap-3 rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:bg-primary/[0.04] hover:shadow-[0_12px_28px_rgba(239,68,68,0.12)]">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:bg-primary group-hover:text-background">
                     <Mail className="h-4 w-4" />
                   </div>
-                  <div>
+                  <div className="flex-1 min-w-0">
                     <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">Email</p>
-                    <a href="mailto:andromixm@gmail.com" className="text-sm font-medium text-foreground hover:text-primary">
+                    <a href="mailto:andromixm@gmail.com" className="block text-sm font-medium text-foreground transition-all duration-300 group-hover:text-primary group-hover:underline underline-offset-4 truncate">
                       andromixm@gmail.com
                     </a>
                   </div>
+                  <button
+                    type="button"
+                    onClick={() => handleCopy("andromixm@gmail.com")}
+                    className="inline-flex items-center gap-1 rounded-full border border-border/60 bg-background/70 px-2 py-1 text-[10px] font-medium text-muted-foreground transition hover:border-primary/50 hover:text-primary"
+                    aria-label="Copiar email"
+                  >
+                    {copiedValue === "andromixm@gmail.com" ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+                    {copiedValue === "andromixm@gmail.com" ? "Listo" : "Copiar"}
+                  </button>
                 </div>
 
-                <div className="flex items-center gap-3 rounded-xl border border-border/50 bg-card/60 p-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <div className="group flex items-center gap-3 rounded-xl border border-border/50 bg-card/60 p-3 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/50 hover:bg-emerald-500/[0.04] hover:shadow-[0_12px_28px_rgba(16,185,129,0.12)]">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:bg-emerald-500 group-hover:text-white">
                     <Phone className="h-4 w-4" />
                   </div>
-                  <div>
+                  <div className="flex-1 min-w-0">
                     <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">WhatsApp</p>
                     <a
                       href="https://api.whatsapp.com/send/?phone=573113845246&text=Hola%20Hern%C3%A1n%2C%20me%20interesa%20hablar%20contigo&type=phone_number&app_absent=0"
                       target="_blank"
                       rel="noreferrer"
-                      className="text-sm font-medium text-foreground hover:text-primary"
+                      className="block text-sm font-medium text-foreground transition-all duration-300 group-hover:text-emerald-500 group-hover:underline underline-offset-4 truncate"
                     >
                       +57 311 384 5246
                     </a>
                   </div>
+                  <button
+                    type="button"
+                    onClick={() => handleCopy("+57 311 384 5246")}
+                    className="inline-flex items-center gap-1 rounded-full border border-border/60 bg-background/70 px-2 py-1 text-[10px] font-medium text-muted-foreground transition hover:border-emerald-500/50 hover:text-emerald-500"
+                    aria-label="Copiar número de WhatsApp"
+                  >
+                    {copiedValue === "+57 311 384 5246" ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+                    {copiedValue === "+57 311 384 5246" ? "Listo" : "Copiar"}
+                  </button>
                 </div>
 
                 <div className="flex items-center gap-3 rounded-xl border border-border/50 bg-card/60 p-3">
