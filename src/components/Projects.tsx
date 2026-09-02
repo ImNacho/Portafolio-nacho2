@@ -28,12 +28,7 @@ export default function Projects() {
     const ctx = gsap.context(() => {
       if (sessionStorage.getItem('skip-reveal')) {
         gsap.set(".projects-heading", { opacity: 1, y: 0 });
-        gsap.utils.toArray<HTMLElement>(".project-row").forEach((row) => {
-          const imgWrap = row.querySelector<HTMLElement>(".project-img-wrap");
-          const content = row.querySelector<HTMLElement>(".project-content");
-          if (imgWrap) gsap.set(imgWrap, { opacity: 1, x: 0 });
-          if (content) gsap.set(content, { opacity: 1, x: 0 });
-        });
+        gsap.set(".project-card", { opacity: 1, y: 0 });
         return;
       }
 
@@ -46,22 +41,18 @@ export default function Projects() {
         }
       );
 
-      gsap.utils.toArray<HTMLElement>(".project-row").forEach((row, i) => {
-        const isEven = i % 2 !== 0;
-        const imgWrap = row.querySelector<HTMLElement>(".project-img-wrap");
-        const content = row.querySelector<HTMLElement>(".project-content");
-
-        const tl = gsap.timeline({
-          scrollTrigger: { trigger: row, start: "top 82%" },
-        });
-
-        tl.fromTo(imgWrap,
-          { opacity: 0, x: isEven ? 70 : -70 },
-          { opacity: 1, x: 0, duration: 1.1, ease: "power3.out" }
-        ).fromTo(content,
-          { opacity: 0, x: isEven ? -70 : 70 },
-          { opacity: 1, x: 0, duration: 1.1, ease: "power3.out" },
-          "-=0.85"
+      gsap.utils.toArray<HTMLElement>(".project-card").forEach((card, index) => {
+        gsap.fromTo(
+          card,
+          { opacity: 0, y: 34 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            delay: index * 0.08,
+            ease: "power3.out",
+            scrollTrigger: { trigger: card, start: "top 88%" },
+          }
         );
       });
     }, sectionRef);
@@ -72,75 +63,80 @@ export default function Projects() {
   return (
     <section ref={sectionRef} id="projects" className="py-16 md:py-20 relative">
       <div className="container mx-auto px-6 relative z-10">
-
         <div className="projects-heading opacity-0 text-center mb-10 md:mb-12 flex flex-col items-center">
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-1 md:mb-1 leading-tight text-balance">
-              {pr.title}<span className="text-primary">{pr.titleHighlight}</span>
+            {pr.title}<span className="text-primary">{pr.titleHighlight}</span>
           </h2>
           <p className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-foreground to-red-500 text-sm sm:text-base md:text-lg max-w-2xl mx-auto font-medium leading-relaxed">
             {pr.subtitle}
           </p>
         </div>
 
-        <div className="relative">
-          <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-pl-6 pb-4 [&::-webkit-scrollbar]:hidden xl:flex-col xl:gap-20 2xl:gap-40 xl:overflow-visible xl:snap-none xl:scroll-pl-0 xl:pb-0">
-          {projects.map((project, index) => {
-            const isEven = index % 2 !== 0;
-            return (
-              <div key={project.slug} data-project-slug={project.slug} className="project-row min-w-[85vw] snap-start flex flex-col xl:flex-row gap-6 xl:gap-16 items-center group xl:min-w-0 xl:snap-none">
+        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+          {projects.map((project, index) => (
+            <a
+              key={project.slug}
+              data-project-slug={project.slug}
+              href={`/projects/${project.slug}`}
+              className="project-card group block opacity-0"
+              aria-label={`${pr.viewDetails} - ${project.title}`}
+            >
+              <article className="relative flex h-full min-h-[360px] flex-col overflow-hidden rounded-[28px] border border-border/70 bg-card/80 p-5 shadow-[0_18px_60px_rgba(17,17,17,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-[0_24px_70px_rgba(17,17,17,0.12)]">
+                <div className={`absolute inset-x-0 top-0 h-28 bg-gradient-to-br ${project.gradient}`} />
 
-                <div className={`project-content opacity-0 w-full xl:w-full flex flex-col justify-center ${isEven ? "xl:order-1 xl:pl-4" : "xl:order-2 xl:pr-4"}`}>
-                  <div className="flex flex-wrap items-center gap-3 mb-3 md:mb-6">
-                    <span className="font-mono text-5xl font-black text-foreground/8 select-none leading-none">{project.number}</span>
-                    <span className={`text-xs uppercase tracking-widest font-black px-4 py-1.5 rounded-full border ${project.accent}`}>
+                <div className="relative z-10 flex h-full flex-col">
+                  <div className="mb-4 flex items-start justify-between gap-3">
+                    <span className="font-mono text-4xl font-black leading-none text-foreground/10 select-none">
+                      {project.number}
+                    </span>
+                    <span className={`inline-flex items-center rounded-full border px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.14em] ${project.accent}`}>
                       {project.highlight}
                     </span>
                   </div>
 
-                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-foreground mb-1 md:mb-2 leading-tight">
-                    {project.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm font-mono text-muted-foreground mb-2 md:mb-6">{project.role}</p>
+                  <div className="mt-auto space-y-4">
+                    <div>
+                      <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.22em] text-muted-foreground/80">
+                        {project.year}
+                      </p>
+                      <h3 className="text-2xl font-black leading-tight text-foreground">
+                        {project.title}
+                      </h3>
+                    </div>
 
-                  <p className="text-muted-foreground text-xs sm:text-base leading-relaxed mb-3 md:mb-7 font-light line-clamp-3 md:line-clamp-none">
-                    {renderBold(project.description)}
-                  </p>
+                    <p className="text-sm font-mono text-muted-foreground">
+                      {project.role}
+                    </p>
 
-                  <div className="flex flex-wrap gap-1.5 md:gap-2 mb-3 md:mb-8">
-                    {project.tags.slice(0, 3).map((tag) => (
-                      <span key={tag} className="text-[10px] sm:text-xs font-semibold text-foreground/80 bg-foreground/5 border border-border/50 px-2 py-1 sm:px-3 sm:py-1.5 rounded-xl">
-                        {tag}
-                      </span>
-                    ))}
-                    {project.tags.length > 3 && (
-                      <span className="text-[10px] sm:text-xs font-semibold text-muted-foreground bg-foreground/5 border border-border/50 px-2 py-1 sm:px-3 sm:py-1.5 rounded-xl">
-                        +{project.tags.length - 3}
-                      </span>
-                    )}
-                  </div>
+                    <p className="line-clamp-3 text-sm leading-relaxed text-muted-foreground/90">
+                      {renderBold(project.description)}
+                    </p>
 
-                  <div className="flex flex-row items-center gap-2">
-                    <a
-                      href={`/projects/${project.slug}`}
-                      className="flex-1 flex items-center justify-center gap-2 bg-foreground text-background hover:bg-foreground/90 px-4 py-2.5 sm:px-6 sm:py-3.5 rounded-2xl text-xs sm:text-sm font-bold transition-all duration-300 shadow-xl shadow-foreground/10 group/btn cursor-pointer"
-                      aria-label={`${pr.viewDetails} - ${project.title}`}
-                    >
-                      {pr.viewDetails}
-                      <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover/btn:translate-x-1 transition-transform" />
-                    </a>
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags.slice(0, 3).map((tag) => (
+                        <span
+                          key={`${project.slug}-${tag}`}
+                          className="rounded-full border border-border/70 bg-foreground/5 px-2.5 py-1 text-[10px] font-semibold text-foreground/80"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                      {project.tags.length > 3 && (
+                        <span className="rounded-full border border-border/70 bg-foreground/5 px-2.5 py-1 text-[10px] font-semibold text-muted-foreground">
+                          +{project.tags.length - 3}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex items-center justify-between border-t border-border/70 pt-4 text-sm font-semibold text-foreground">
+                      <span>{pr.viewDetails}</span>
+                      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    </div>
                   </div>
                 </div>
-
-              </div>
-            );
-          })}
-          </div>
-
-          
-
-          {/* Mobile fade hint at edges */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-background to-transparent xl:hidden" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-background to-transparent xl:hidden" />
+              </article>
+            </a>
+          ))}
         </div>
       </div>
     </section>
