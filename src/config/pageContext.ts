@@ -6,8 +6,8 @@ export const SECTION_LABELS: Record<string, string> = {
   impact:             'Impact & Metrics subsection (inside the Skills section)',
   about:              'About Hernán section',
   contact:            'Contact section',
-  uncuartodemilla:    'project detail page for "1/4 de Milla E-Commerce"',
-  expresoomega:       'project detail page for "Expreso Omega Logistics"',
+  neomc:              'project detail page for "NeoMC — Website"',
+  'tvp-municipios':   'project detail page for "TVP Municipios"',
 };
 
 export const VALID_SECTIONS = new Set(Object.keys(SECTION_LABELS));

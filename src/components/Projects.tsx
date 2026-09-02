@@ -128,16 +128,6 @@ export default function Projects() {
                       {pr.viewDetails}
                       <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover/btn:translate-x-1 transition-transform" />
                     </a>
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 glass hover:bg-foreground/5 text-foreground border border-border/50 hover:border-foreground/30 px-4 py-2.5 sm:px-6 sm:py-3.5 rounded-2xl text-xs sm:text-sm font-bold transition-all duration-300 cursor-pointer"
-                      aria-label={`${pr.visitSite} - ${project.title}`}
-                    >
-                      <ExternalLink className="w-3.5 h-3.5" />
-                      {pr.visitSite}
-                    </a>
                   </div>
                 </div>
 

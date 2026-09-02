@@ -1,6 +1,6 @@
 export const projectsStaticData = [
   {
-    slug: "uncuartodemilla",
+    slug: "neomc",
     images: [] as string[],
     image: "",
     year: "2023",
@@ -11,12 +11,12 @@ export const projectsStaticData = [
       "MercadoPago API", "Meta Pixel", "Meta Conversions API", "Netlify", "Render",
     ],
     link: "https://uncuartodemilla.com/",
-    repo: "https://github.com/jackshaw32",
+    repo: "https://github.com/ImNacho",
     gradient: "from-blue-500/20 via-indigo-500/5 to-transparent",
     accent: "text-blue-400 border-blue-500/30 bg-blue-500/10",
   },
   {
-    slug: "expresoomega",
+    slug: "tvp-municipios",
     images: [] as string[],
     image: "",
     year: "2022",
@@ -26,7 +26,7 @@ export const projectsStaticData = [
       "SEO Optimization", "Web Hosting", "Responsive Design",
     ],
     link: "https://www.expresoomega.com/",
-    repo: "https://github.com/jackshaw32",
+    repo: "https://github.com/ImNacho",
     gradient: "from-emerald-500/20 via-teal-500/5 to-transparent",
     accent: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10",
   },

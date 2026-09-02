@@ -82,7 +82,7 @@ function getHelpText(lang: string): string {
   return lines.join('\n');
 }
 
-const SLUGS = ['uncuartodemilla', 'expresoomega', '14milla', 'omega'];
+const SLUGS = ['neomc', 'tvp-municipios', '14milla', 'omega'];
 
 function makeMsg(role: 'user' | 'assistant', content: string, id: string, toolInvocations?: ChatMessage['toolInvocations']): ChatMessage {
   return { id, role, content, toolInvocations };
