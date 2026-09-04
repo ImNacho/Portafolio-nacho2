@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Download, FileText, Moon, Sun, Menu, X, Github, Linkedin, Terminal, House, BriefcaseBusiness, Zap, UserRound, Mail } from "lucide-react";
+import { Download, FileText, Moon, Sun, Menu, X, Github, Linkedin, House, BriefcaseBusiness, Zap, UserRound, Mail } from "lucide-react";
 import ContactModal from "./ContactModal";
 import { useLanguage } from "@/hooks/useLanguage";
 import { translations } from "@/lib/translations";
@@ -123,8 +123,8 @@ export default function Navbar({ subPage = false }: { subPage?: boolean }) {
           >
 
           <button className="flex items-center gap-3 group cursor-pointer" onClick={() => scrollToSection('top')}>
-            <span className="hidden md:flex relative h-10 w-10 shrink-0 rounded-xl bg-foreground/10 items-center justify-center border border-foreground/[0.08]">
-              <Terminal className="w-4 h-4 text-foreground" />
+            <span className="hidden md:flex relative h-10 w-10 shrink-0 overflow-hidden rounded-xl bg-foreground/10 items-center justify-center border border-foreground/[0.08]">
+              <img src="/logon.png" alt="Hernán Mendoza" className="h-full w-full scale-[2.15] rounded-xl object-cover" />
             </span>
             <div className="flex flex-col items-start">
               <span className="font-semibold text-base lg:text-xl text-foreground leading-tight whitespace-nowrap">Hernán Mendoza</span>

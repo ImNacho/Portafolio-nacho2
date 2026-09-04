@@ -1,4 +1,4 @@
-import { Terminal, Github, Linkedin, Mail, ArrowUpRight } from "lucide-react";
+import { Github, Linkedin, Mail, ArrowUpRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { translations } from "@/lib/translations";
@@ -51,7 +51,7 @@ export default function Footer({ subPage = false }: { subPage?: boolean }) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 md:gap-x-10 gap-y-10 md:gap-y-8 mb-8 md:mb-10 xl:grid-cols-4 xl:gap-x-10">
           <div className="space-y-4 lg:col-span-1">
             <div className="flex items-center gap-2">
-              <Terminal className="w-6 h-6 text-primary" />
+              <img src="/logon.png" alt="Hernán Mendoza" className="h-10 w-10 rounded-xl object-cover" />
               <span className="font-mono text-xl font-bold whitespace-nowrap">
                 Hernán<span className="text-primary"> Mendoza</span>
               </span>
